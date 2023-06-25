@@ -8,8 +8,8 @@ env:
   DB_HOST: 127.0.0.1
   DB_PORT: 27017
   DB_NAME: github-action-db
-  DB_USERNAME:
-  DB_PASSWORD:
+  # DB_USERNAME:
+  # DB_PASSWORD:
 jobs:
   checking-feature:
     runs-on: ubuntu-latest
@@ -43,8 +43,8 @@ jobs:
         uses: supercharge/mongodb-github-action@1.8.0
         with:
           mongodb-versions: "6.0"
-          mongodb-username:
-          mongodb-password:
+          # mongodb-username:
+          # mongodb-password:
           Mongodb-db: github-action-db
 
       - name: setup nodejs v18

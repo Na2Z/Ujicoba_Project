@@ -29,7 +29,7 @@ jobs:
       - name: run applications
         run: npm start&
 
-      - name: test if app is wordking
+      - name: test if app is working
         run: until curl -v http://127.0.0.1:3000 > /dev/null;do sleep 1; done
   test-feature:
     runs-on: ubuntu-latest

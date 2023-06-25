@@ -1,0 +1,512 @@
+openapi: 3.0.0
+info:
+  title: Jasa Pengiriman
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+  - url: https://api.example.com
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+security:
+  - apiKey: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User registered successfully
+        "500":
+          description: Internal server error
+
+  /auth/login:
+    post:
+      summary: Login a user
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User logged in successfully
+        "500":
+          description: Internal server error
+
+  /auth/logout:
+    get:
+      summary: Logout a user
+      tags:
+        - auth
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: User logged out successfully
+        "500":
+          description: Internal server error
+
+  /auth/{id}:
+    delete:
+      summary: Delete a User by ID
+      tags:
+        - auth
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: User deleted successfully
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+
+  /customers/{id}:
+    patch:
+      summary: Update a customer by ID
+      tags:
+        - customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Customer updated successfully
+        "404":
+          description: Customer not found
+        "500":
+          description: Internal server error
+
+    delete:
+      summary: Delete a customer by ID
+      tags:
+        - customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Customer deleted successfully
+        "404":
+          description: Customer not found
+        "500":
+          description: Internal server error
+
+    get:
+      summary: Get a customer by ID
+      tags:
+        - customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Customer found
+        "404":
+          description: Customer not found
+        "500":
+          description: Internal server error
+
+  /customers:
+    get:
+      summary: Get all customers
+      tags:
+        - customers
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Customers found
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Add a new customer
+      tags:
+        - customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Customer added successfully
+        "500":
+          description: Internal server error
+
+  /product:
+    get:
+      summary: Get all product
+      tags:
+        - product
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: product found
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Add a new product
+      tags:
+        - product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                category:
+                  type: string
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Product added successfully
+        "500":
+          description: Internal server error
+
+  /product/{productId}:
+    get:
+      summary: Get a product by ID
+      tags:
+        - product
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Product found
+        "404":
+          description: Product not found
+        "500":
+          description: Internal server error
+
+    patch:
+      summary: Update a product by ID
+      tags:
+        - product
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                category:
+                  type: string
+      responses:
+        "200":
+          description: product updated successfully
+        "404":
+          description: product not found
+        "500":
+          description: Internal server error
+
+    delete:
+      summary: Delete a Product by ID
+      tags:
+        - product
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: product deleted successfully
+        "404":
+          description: product not found
+        "500":
+          description: Internal server error
+
+  /orders:
+    post:
+      tags:
+        - order
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerId:
+                  type: string
+                productIds:
+                  type: array
+                  items:
+                    type: string
+                totalPrice:
+                  type: number
+                status:
+                  type: string
+                  enum:
+                    - pending
+                    - completed
+                    - cancelled
+              required:
+                - customerId
+                - productIds
+                - totalPrice
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    type: string
+                  products:
+                    type: array
+                    items:
+                      type: string
+                  totalPrice:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - completed
+                      - cancelled
+        "404":
+          description: Customer or product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /orders/{id}:
+    get:
+      summary: Get an order by ID
+      tags:
+        - order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    type: string
+                  products:
+                    type: array
+                    items:
+                      type: string
+                  totalPrice:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - completed
+                      - cancelled
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    put:
+      summary: Update an order
+      tags:
+        - order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer:
+                  type: string
+                products:
+                  type: array
+                  items:
+                    type: string
+                totalPrice:
+                  type: number
+                status:
+                  type: string
+                  enum:
+                    - pending
+                    - completed
+                    - cancelled
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    type: string
+                  products:
+                    type: array
+                    items:
+                      type: string
+                  totalPrice:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - completed
+                      - cancelled
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    delete:
+      summary: Delete an order
+      tags:
+        - order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

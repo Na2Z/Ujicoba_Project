@@ -1,0 +1,59 @@
+name: feature checking
+
+on:
+  push:
+    branches:
+      - "master" #only master
+env:
+  DB_HOST: 127.0.0.1
+  DB_PORT: 27017
+  DB_NAME: github-action-db
+  DB_USERNAME:
+  DB_PASSWORD:
+jobs:
+  checking-feature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: checkout repository
+        uses: action/checkout@v2
+
+      - name: setup nodejs v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run applications
+        run: npm start&
+
+      - name: test if app is wordking
+        run: until curl -v http://127.0.0.1:3000 > /dev/null;do sleep 1; done
+  test-feature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    needs: checking-features #nunggu checkking-features baru test-features
+    steps:
+      - name: aheckout repository
+        uses: actions/checkout@v2
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-versions: "6.0"
+          mongodb-username:
+          mongodb-password:
+          Mongodb-db: github-action-db
+
+      - name: setup nodejs v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: install dependencies
+        run: npm install
+
+      - name: test features
+        run: npm run test

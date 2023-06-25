@@ -1,0 +1,10 @@
+Melihat detail pesanan berdasarkan ID
+Mengupdate status pesanan
+Menghapus pesanan
+Melihat pesanan berdasarkan rentang waktu
+Menghitung total pesanan
+Mengelompokkan pesanan berdasarkan wilayah tujuan
+Menampilkan riwayat pesanan pelanggan
+Mengirim notifikasi pesanan
+Mengelola data pelanggan
+Membuat laporan analitik pesanan (opsional)
